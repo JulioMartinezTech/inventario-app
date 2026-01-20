@@ -14,7 +14,7 @@
       </div>
       <div class="c-item-card__input__container">
         <label for="">Cantidad</label>
-        <input type="text" class="c-item-card__input" />
+        <input type="number" class="c-item-card__input" />
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@ const uniteTypes = ref([
   border-bottom: solid 1px gray;
 }
 .c-item-card__iputs {
-  width: 70%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
