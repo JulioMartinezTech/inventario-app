@@ -78,6 +78,13 @@ const uniteTypes = ref([
 .c-item-card__select {
   width: 90%;
   height: 30px;
+  border: solid 1px grey;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 3px;
 }
 .c-item-card__input {
   width: 90%;
