@@ -1,9 +1,10 @@
 <template>
   <div class="c-item-card">
     <p class="c-item-card__title">item</p>
+    <div class="c-item-card__separator"></div>
     <div class="c-item-card__iputs">
       <div class="c-item-card__select__container">
-        <label for="">Tipo unidad</label>
+        <label for="">Tipo de unidad</label>
         <select v-model="selectedUniteType" name="" id="type" class="c-item-card__select">
           <option disabled value="">Seleccione una</option>
           <option v-for="type in uniteTypes" :key="type.id" :value="type.value">
@@ -36,8 +37,8 @@ const uniteTypes = ref([
 }
 .c-item-card {
   width: 100%;
-  height: 80px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
@@ -46,7 +47,11 @@ const uniteTypes = ref([
   box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.1),
     0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  padding: 10px;
+  padding: 15px 10px;
+}
+.c-item-card__separator {
+  width: 70%;
+  border-bottom: solid 1px gray;
 }
 .c-item-card__iputs {
   width: 70%;
