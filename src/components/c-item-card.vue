@@ -4,7 +4,7 @@
     <div class="c-item-card__separator"></div>
     <div class="c-item-card__iputs">
       <div class="c-item-card__select__container">
-        <label for="">Tipo de unidad</label>
+        <label for="">Contar por</label>
         <select v-model="selectedUniteType" name="" id="type" class="c-item-card__select">
           <option disabled value="">Seleccione una</option>
           <option v-for="type in uniteTypes" :key="type.id" :value="type.value">
@@ -26,8 +26,8 @@ import { ref } from 'vue'
 const selectedUniteType = ref('')
 
 const uniteTypes = ref([
-  { id: 1, label: 'unidad', value: 'und' },
-  { id: 2, label: 'caja', value: 'cj' },
+  { id: 1, label: 'Unidad', value: 'und' },
+  { id: 2, label: 'Caja', value: 'cj' },
 ])
 </script>
 
