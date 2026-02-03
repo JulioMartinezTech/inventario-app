@@ -1,40 +1,53 @@
 <template>
   <div class="c-item-card">
-    <p class="c-item-card__title">item</p>
+    <p class="c-item-card__title">{{ props.name }}</p>
     <div class="c-item-card__separator"></div>
-    <div class="c-item-card__iputs">
+    <div class="c-item-card__inputs">
       <div class="c-item-card__select__container">
-        <label for="">Contar por</label>
-        <select v-model="selectedUniteType" name="" id="type" class="c-item-card__select">
+        <label :for="`type-${props.name}`">Contar por</label>
+        <select
+          v-model="selectedUniteType"
+          name="type"
+          :id="`type-${props.name}`"
+          class="c-item-card__select"
+        >
           <option disabled value="">Seleccione una</option>
-          <option v-for="type in uniteTypes" :key="type.id" :value="type.value">
+          <option v-for="type in props.uniteTypes" :key="type.id" :value="type.value">
             {{ type.label }}
           </option>
         </select>
       </div>
       <div class="c-item-card__input__container">
-        <label for="">Cantidad</label>
-        <input type="number" class="c-item-card__input" />
+        <label :for="`qty-${props.name}`">Cantidad</label>
+        <input
+          v-model.number="quantityInput"
+          type="number"
+          class="c-item-card__input"
+          :id="`qty-${props.name}`"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+interface UniteType {
+  id: number
+  label: string
+  value: string
+}
 
-const selectedUniteType = ref('')
+interface Props {
+  name: string
+  uniteTypes: UniteType[]
+}
 
-const uniteTypes = ref([
-  { id: 1, label: 'Unidad', value: 'und' },
-  { id: 2, label: 'Caja', value: 'cj' },
-])
+const props = defineProps<Props>()
+const selectedUniteType = defineModel<string>('type', { default: '' })
+const quantityInput = defineModel<number | null>('quantity', { default: null })
 </script>
 
 <style scoped>
-* {
-  background-color: #fff;
-}
 .c-item-card {
   width: 100%;
   display: flex;
@@ -53,7 +66,7 @@ const uniteTypes = ref([
   width: 70%;
   border-bottom: solid 1px gray;
 }
-.c-item-card__iputs {
+.c-item-card__inputs {
   width: 90%;
   display: flex;
   justify-content: center;
