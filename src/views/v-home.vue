@@ -108,11 +108,9 @@ const handleExportAndReset = (): void => {
   top: 0;
   background-color: white;
   padding: 15px;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 20px auto;
+  z-index: 30; /* Subimos el nivel */
+  margin: 0 auto; /* Eliminamos el margin-bottom para pegar los filtros */
+  border-bottom: none;
 }
 
 .v-home__progress-info {
@@ -138,7 +136,7 @@ const handleExportAndReset = (): void => {
 
 .v-home__progress-bar-fill {
   height: 100%;
-  background-color: #3498db;
+  background-color: #e67e22;
   transition: width 0.3s ease;
 }
 
@@ -157,18 +155,23 @@ const handleExportAndReset = (): void => {
   top: 80px;
   background: white;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Alineado a la izquierda */
+  overflow-x: auto; /* Permite scroll horizontal si hay muchos filtros */
   gap: 8px;
-  padding: 10px;
+  padding: 12px;
   z-index: 20;
-  border-bottom: 1px solid #eee;
+  scrollbar-width: none; /* Oculta scrollbar en Firefox */
+}
+
+.v-home__filters::-webkit-scrollbar {
+  display: none; /* Oculta scrollbar en Chrome/Safari */
 }
 
 .v-home__filter-btn {
   padding: 8px 16px;
-  border: 1px solid #3498db;
+  border: 1px solid #e67e22;
   background: transparent;
-  color: #3498db;
+  color: #e67e22;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -178,7 +181,7 @@ const handleExportAndReset = (): void => {
 }
 
 .v-home__filter-btn.is-active {
-  background: #3498db;
+  background: #e67e22;
   color: white;
 }
 .v-home__item-list {

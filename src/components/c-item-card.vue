@@ -1,5 +1,5 @@
 <template>
-  <div class="c-item-card">
+  <div class="c-item-card" :class="{ 'is-completed': quantityInput !== null }">
     <p class="c-item-card__title">{{ props.item.name }}</p>
 
     <div class="c-item-card__form-row">
@@ -45,15 +45,24 @@ const quantityInput = defineModel<number | null>('quantity', { default: null })
 <style scoped>
 .c-item-card {
   width: 100%;
-  max-width: 500px;
   background-color: #ffffff;
   border-radius: 12px;
   padding: 12px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #edf2f7;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.c-item-card.is-completed {
+  background-color: #f0fff4;
+  border-color: #68d391;
+  opacity: 0.9;
+}
+
+.c-item-card.is-completed .c-item-card__title {
+  color: #2f855a;
 }
 
 .c-item-card__title {
@@ -61,7 +70,6 @@ const quantityInput = defineModel<number | null>('quantity', { default: null })
   font-weight: 700;
   color: #1a202c;
   margin: 0;
-  /* Evita que nombres muy largos rompan el diseño */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,23 +78,23 @@ const quantityInput = defineModel<number | null>('quantity', { default: null })
 .c-item-card__form-row {
   display: flex;
   align-items: center;
-  gap: 8px; /* Espacio táctil suficiente */
+  gap: 8px;
 }
 
 /* Clases de utilidad para el layout horizontal */
 .c-item-card__field.-flex {
-  flex: 1; /* El select se expande */
+  flex: 1;
 }
 
 .c-item-card__field.-fixed {
-  flex: 0 0 90px; /* El input de cantidad siempre mide 90px */
+  flex: 0 0 90px;
 }
 
 .c-item-card__select,
 .c-item-card__input {
   width: 100%;
-  height: 44px; /* Altura optimizada para pulgares (estándar Apple/Google) */
-  border: 2px solid #e2e8f0; /* Borde más grueso para mayor visibilidad */
+  height: 44px;
+  border: 2px solid #e2e8f0;
   border-radius: 8px;
   font-size: 1rem;
   background-color: #f7fafc;
@@ -96,7 +104,7 @@ const quantityInput = defineModel<number | null>('quantity', { default: null })
 
 .c-item-card__select:focus,
 .c-item-card__input:focus {
-  border-color: #3182ce;
+  border-color: #e67e22;
   background-color: #ffffff;
   outline: none;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
