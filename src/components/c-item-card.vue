@@ -1,29 +1,29 @@
 <template>
   <div class="c-item-card">
-    <p class="c-item-card__title">{{ props.name }}</p>
+    <p class="c-item-card__title">{{ props.item.name }}</p>
     <div class="c-item-card__separator"></div>
     <div class="c-item-card__inputs">
       <div class="c-item-card__select__container">
-        <label :for="`type-${props.name}`">Contar por</label>
+        <label :for="`type-${props.item.name}`">Contar por</label>
         <select
           v-model="selectedUniteType"
           name="type"
-          :id="`type-${props.name}`"
+          :id="`type-${props.item.name}`"
           class="c-item-card__select"
         >
           <option disabled value="">Seleccione una</option>
-          <option v-for="type in props.uniteTypes" :key="type.id" :value="type.value">
+          <option v-for="type in props.unitTypes" :key="type.id" :value="type.value">
             {{ type.label }}
           </option>
         </select>
       </div>
       <div class="c-item-card__input__container">
-        <label :for="`qty-${props.name}`">Cantidad</label>
+        <label :for="`qty-${props.item.name}`">Cantidad</label>
         <input
           v-model.number="quantityInput"
           type="number"
           class="c-item-card__input"
-          :id="`qty-${props.name}`"
+          :id="`qty-${props.item.name}`"
         />
       </div>
     </div>
@@ -31,18 +31,9 @@
 </template>
 
 <script setup lang="ts">
-interface UniteType {
-  id: number
-  label: string
-  value: string
-}
+import type { ItemCardProps } from '@/types/inventoryTypes'
 
-interface Props {
-  name: string
-  uniteTypes: UniteType[]
-}
-
-const props = defineProps<Props>()
+const props = defineProps<ItemCardProps>()
 const selectedUniteType = defineModel<string>('type', { default: '' })
 const quantityInput = defineModel<number | null>('quantity', { default: null })
 </script>
