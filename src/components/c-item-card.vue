@@ -1,29 +1,33 @@
 <template>
   <div class="c-item-card">
     <p class="c-item-card__title">{{ props.item.name }}</p>
-    <div class="c-item-card__separator"></div>
-    <div class="c-item-card__inputs">
-      <div class="c-item-card__select__container">
-        <label :for="`type-${props.item.name}`">Contar por</label>
+
+    <div class="c-item-card__separator" role="none"></div>
+
+    <div class="c-item-card__fields">
+      <div class="c-item-card__group">
+        <label :for="`type-${props.item.id}`" class="c-item-card__label">Formato</label>
         <select
-          v-model="selectedUniteType"
-          name="type"
-          :id="`type-${props.item.name}`"
+          v-model="selectedUnitType"
+          :id="`type-${props.item.id}`"
           class="c-item-card__select"
         >
-          <option disabled value="">Seleccione una</option>
           <option v-for="type in props.unitTypes" :key="type.id" :value="type.value">
             {{ type.label }}
           </option>
         </select>
       </div>
-      <div class="c-item-card__input__container">
-        <label :for="`qty-${props.item.name}`">Cantidad</label>
+
+      <div class="c-item-card__group">
+        <label :for="`qty-${props.item.id}`" class="c-item-card__label">Cantidad</label>
         <input
           v-model.number="quantityInput"
           type="number"
+          :id="`qty-${props.item.id}`"
           class="c-item-card__input"
-          :id="`qty-${props.item.name}`"
+          placeholder="0"
+          min="0"
+          inputmode="numeric"
         />
       </div>
     </div>
@@ -34,7 +38,10 @@
 import type { ItemCardProps } from '@/types/inventoryTypes'
 
 const props = defineProps<ItemCardProps>()
-const selectedUniteType = defineModel<string>('type', { default: '' })
+
+const selectedUnitType = defineModel<ItemCardProps['item']['selection']['unit']>('type', {
+  required: true,
+})
 const quantityInput = defineModel<number | null>('quantity', { default: null })
 </script>
 

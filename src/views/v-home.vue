@@ -6,6 +6,22 @@
       class="v-home__logo"
     />
   </header>
+  <section class="v-home__progress-container">
+    <div class="v-home__progress-info">
+      <span>Progreso de inventario</span>
+      <span class="v-home__count">{{ countedItems }} / {{ totalItems }}</span>
+    </div>
+    <div class="v-home__progress-bar-bg">
+      <div
+        class="v-home__progress-bar-fill"
+        :style="{ width: `${progressPercentage}%` }"
+        :class="{ 'is-complete': isInventoryComplete }"
+      ></div>
+    </div>
+    <p v-if="!isInventoryComplete" class="v-home__pending-msg">
+      Quedan {{ totalItems - countedItems }} productos pendientes
+    </p>
+  </section>
   <main class="v-home__item-list">
     <CItemCard
       v-for="item in items"
@@ -28,15 +44,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-
 import CItemCard from '../components/c-item-card.vue'
-import rawData from '../data/items.json'
-
+import { useInventory } from '@/composables/useInventory'
 import { useInventoryExport } from '@/composables/useInventoryExport'
+import type { UnitType } from '@/types/inventoryTypes'
 
-import type { Item, UnitType } from '@/types/inventoryTypes'
+// 1. Hook de Datos
+const { items, totalItems, countedItems, progressPercentage, isInventoryComplete, resetInventory } =
+  useInventory()
 
+// 2. Hook de Exportación
 const { generatePDF } = useInventoryExport()
 
 const units: UnitType[] = [
@@ -44,29 +61,12 @@ const units: UnitType[] = [
   { id: 2, label: 'Caja', value: 'cj' },
 ]
 
-const createInitialItems = (): Item[] => {
-  return rawData.map((item) => ({
-    ...item,
-    selection: { unit: 'und', quantity: null },
-  }))
-}
-
-const items = ref<Item[]>(createInitialItems())
-
-// Computed para validar si hay algo que exportar
-const isInventoryComplete = computed(() => {
-  return items.value.length > 0 && items.value.every((i) => i.selection.quantity !== null)
-})
-
 const handleExportAndReset = (): void => {
-  // 1. Exportamos
+  // Usamos el servicio de exportación pasándole los datos del servicio de inventario
   generatePDF(items.value)
 
-  // 2. REGLA 2: Resetear la lista después de exportar
-  // Usamos un timeout pequeño o confirmación opcional si quieres estar seguro
-  const confirmed = confirm('¿Deseas limpiar la lista para un nuevo inventario?')
-  if (confirmed) {
-    items.value = createInitialItems()
+  if (confirm('¿Deseas limpiar la lista para un nuevo inventario?')) {
+    resetInventory()
   }
 }
 </script>
@@ -82,6 +82,55 @@ const handleExportAndReset = (): void => {
 }
 .v-home__logo {
   width: 130px;
+}
+.v-home__progress-container {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 15px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+}
+
+.v-home__progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.v-home__count {
+  color: #27ae60;
+}
+
+.v-home__progress-bar-bg {
+  width: 100%;
+  height: 10px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.v-home__progress-bar-fill {
+  height: 100%;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
+
+.v-home__progress-bar-fill.is-complete {
+  background-color: #27ae60;
+}
+
+.v-home__pending-msg {
+  font-size: 0.8rem;
+  color: #e67e22;
+  margin-top: 5px;
+  text-align: center;
 }
 .v-home__item-list {
   display: flex;
