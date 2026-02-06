@@ -6,6 +6,7 @@ const STORAGE_KEY = 'inventory_data_v1'
 
 export function useInventory() {
   const items = ref<Item[]>([])
+  const filterLocation = ref<string>('all') // Estado del filtro
 
   const createCleanList = (): Item[] =>
     rawData.map((item) => ({
@@ -53,8 +54,22 @@ export function useInventory() {
     localStorage.removeItem(STORAGE_KEY)
   }
 
+  const filteredItems = computed(() => {
+    if (filterLocation.value === 'all') return items.value
+    return items.value.filter((item) => item.location === filterLocation.value)
+  })
+
+  // Obtenemos las locaciones únicas dinámicamente del JSON
+  const locations = computed(() => {
+    const locs = items.value.map((i) => i.location)
+    return ['all', ...new Set(locs)]
+  })
+
   return {
     items,
+    filteredItems, // Este es el que usará el v-for
+    filterLocation, // Para hacer el bind con los botones
+    locations,
     totalItems,
     countedItems,
     progressPercentage,

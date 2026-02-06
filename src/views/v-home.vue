@@ -22,9 +22,19 @@
       Quedan {{ totalItems - countedItems }} productos pendientes
     </p>
   </section>
+  <nav class="v-home__filters">
+    <button
+      v-for="loc in locations"
+      :key="loc"
+      @click="filterLocation = loc"
+      :class="['v-home__filter-btn', { 'is-active': filterLocation === loc }]"
+    >
+      {{ loc === 'all' ? 'Todos' : loc }}
+    </button>
+  </nav>
   <main class="v-home__item-list">
     <CItemCard
-      v-for="item in items"
+      v-for="item in filteredItems"
       :key="item.id"
       :item="item"
       :unit-types="units"
@@ -50,8 +60,17 @@ import { useInventoryExport } from '@/composables/useInventoryExport'
 import type { UnitType } from '@/types/inventoryTypes'
 
 // 1. Hook de Datos
-const { items, totalItems, countedItems, progressPercentage, isInventoryComplete, resetInventory } =
-  useInventory()
+const {
+  filteredItems,
+  filterLocation,
+  locations,
+  items,
+  totalItems,
+  countedItems,
+  progressPercentage,
+  isInventoryComplete,
+  resetInventory,
+} = useInventory()
 
 // 2. Hook de Exportación
 const { generatePDF } = useInventoryExport()
@@ -83,6 +102,7 @@ const handleExportAndReset = (): void => {
 .v-home__logo {
   width: 130px;
 }
+
 .v-home__progress-container {
   position: sticky;
   top: 0;
@@ -131,6 +151,35 @@ const handleExportAndReset = (): void => {
   color: #e67e22;
   margin-top: 5px;
   text-align: center;
+}
+.v-home__filters {
+  position: sticky;
+  top: 80px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  z-index: 20;
+  border-bottom: 1px solid #eee;
+}
+
+.v-home__filter-btn {
+  padding: 8px 16px;
+  border: 1px solid #3498db;
+  background: transparent;
+  color: #3498db;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all 0.2s;
+}
+
+.v-home__filter-btn.is-active {
+  background: #3498db;
+  color: white;
 }
 .v-home__item-list {
   display: flex;
