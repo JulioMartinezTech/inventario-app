@@ -2,15 +2,13 @@
   <div class="c-item-card">
     <p class="c-item-card__title">{{ props.item.name }}</p>
 
-    <div class="c-item-card__separator" role="none"></div>
-
-    <div class="c-item-card__fields">
-      <div class="c-item-card__group">
-        <label :for="`type-${props.item.id}`" class="c-item-card__label">Formato</label>
+    <div class="c-item-card__form-row">
+      <div class="c-item-card__field -flex">
         <select
           v-model="selectedUnitType"
           :id="`type-${props.item.id}`"
           class="c-item-card__select"
+          aria-label="Seleccionar unidad"
         >
           <option v-for="type in props.unitTypes" :key="type.id" :value="type.value">
             {{ type.label }}
@@ -18,16 +16,15 @@
         </select>
       </div>
 
-      <div class="c-item-card__group">
-        <label :for="`qty-${props.item.id}`" class="c-item-card__label">Cantidad</label>
+      <div class="c-item-card__field -fixed">
         <input
           v-model.number="quantityInput"
           type="number"
           :id="`qty-${props.item.id}`"
           class="c-item-card__input"
-          placeholder="0"
-          min="0"
+          placeholder=""
           inputmode="numeric"
+          aria-label="Cantidad"
         />
       </div>
     </div>
@@ -48,63 +45,70 @@ const quantityInput = defineModel<number | null>('quantity', { default: null })
 <style scoped>
 .c-item-card {
   width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  padding: 15px 10px;
-}
-.c-item-card__separator {
-  width: 70%;
-  border-bottom: solid 1px gray;
-}
-.c-item-card__inputs {
-  width: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-.c-item-card__select__container {
-  width: 60%;
+
+.c-item-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+  /* Evita que nombres muy largos rompan el diseño */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c-item-card__form-row {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 8px; /* Espacio táctil suficiente */
 }
-.c-item-card__input__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+
+/* Clases de utilidad para el layout horizontal */
+.c-item-card__field.-flex {
+  flex: 1; /* El select se expande */
 }
-.c-item-card__select {
-  width: 90%;
-  height: 30px;
-  border: solid 1px grey;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 3px;
+
+.c-item-card__field.-fixed {
+  flex: 0 0 90px; /* El input de cantidad siempre mide 90px */
 }
+
+.c-item-card__select,
 .c-item-card__input {
-  width: 90%;
-  height: 30px;
-  border: solid 1px grey;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 44px; /* Altura optimizada para pulgares (estándar Apple/Google) */
+  border: 2px solid #e2e8f0; /* Borde más grueso para mayor visibilidad */
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f7fafc;
+  transition: all 0.2s ease-in-out;
   text-align: center;
+}
+
+.c-item-card__select:focus,
+.c-item-card__input:focus {
+  border-color: #3182ce;
+  background-color: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+/* Mejoramos la apariencia del select en iOS/Android */
+.c-item-card__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234A5568'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 30px;
 }
 </style>
