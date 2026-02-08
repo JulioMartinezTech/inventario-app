@@ -66,13 +66,13 @@
   },
   {
     "id": 13,
-    "name": "Gallina pequena",
+    "name": "Gallina pequeña",
     "location": "Congelador"
   },
   {
     "id": 14,
-    "name": "Gallina pequena",
-    "location": "Congelador"
+    "name": "Banano",
+    "location": "Nevera"
   },
   {
     "id": 15,
@@ -101,7 +101,7 @@
   },
   {
     "id": 20,
-    "name": "Picada pequena",
+    "name": "Picada pequeña",
     "location": "Congelador"
   },
   {
@@ -116,7 +116,7 @@
   },
   {
     "id": 23,
-    "name": "Costilla pequena",
+    "name": "Costilla pequeña",
     "location": "Congelador"
   },
   {
@@ -147,7 +147,7 @@
   {
     "id": 30,
     "name": "Cebolla morada",
-    "location": "Nevera"
+    "location": "Fuera de las neveras"
   },
   {
     "id": 31,
@@ -256,7 +256,7 @@
   },
   {
     "id": 52,
-    "name": "arepa pequena",
+    "name": "Arepa pequeña",
     "location": "Congelador"
   },
   {
@@ -362,6 +362,26 @@
   {
     "id": 73,
     "name": "Empanada de queso",
+    "location": "Nevera"
+  },
+  {
+    "id": 74,
+    "name": "Kiwi",
+    "location": "Nevera"
+  },
+  {
+    "id": 75,
+    "name": "Piña",
+    "location": "Nevera"
+  },
+  {
+    "id": 76,
+    "name": "Platano maduro",
+    "location": "Nevera"
+  },
+  {
+    "id": 77,
+    "name": "Platano verde",
     "location": "Nevera"
   }
 ]
