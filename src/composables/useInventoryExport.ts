@@ -5,9 +5,7 @@ import type { Item } from '@/types/inventoryTypes'
 export function useInventoryExport() {
   const generatePDF = (items: Item[]): void => {
     // 1. Filtrar solo los items que tienen una cantidad ingresada
-    const itemsToExport = items.filter(
-      (item) => item.selection.quantity !== null && item.selection.quantity > 0,
-    )
+    const itemsToExport = items.filter((item) => item.selection.quantity !== null)
 
     if (itemsToExport.length === 0) {
       alert('No hay datos para exportar. Ingresa al menos una cantidad.')
